@@ -14,7 +14,7 @@
       "class": "Ective_DSC",
       "connection": {
         "type": "serial",
-        "port": "/dev/ttyUSB0"
+        "port": "/dev/ttyS0"
       }
     }
   ]
