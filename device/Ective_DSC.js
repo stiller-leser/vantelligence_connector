@@ -66,6 +66,13 @@ export default class extends Device {
     const chargedEnergy = values[13] / 1000
     const chargingPower = Math.round(boardBatteryVoltage * chargingCurrent)
 
+    console.log("Board Battery Voltage: " + boardBatteryVoltage)
+    console.log("Panel Voltage: " + panelVoltage)
+    console.log("Panel Power: " + panelPower)
+    console.log("Charging Current: " + chargingCurrent)
+    console.log("Charged Energy: " + chargedEnergy)
+    console.log("Charging Power: " + chargingPower)
+
     this.emitEntity({
       name: 'Spannung Bordbatterie',
       key: 'voltage_board_battery',
