@@ -23,17 +23,23 @@ fs.readdir(DEVICE_PATH, async (error, files) => {
     log('⚠️', error)
   } else {
     for (let file of files) {
-      // import device class
-      const module = await import(DEVICE_PATH + file)
+      try {
+        // import device 
+        const module = await import(DEVICE_PATH + file)
+        
 
-      // development filter
-      if (['Socketcan.js', 'Bluetooth.js'].includes(file)) continue
-      //if (!['Pigpio.js'].includes(file)) continue
+        // development filter
+        if (['Socketcan.js', 'Bluetooth.js'].includes(file)) continue
+        //if (!['Pigpio.js'].includes(file)) continue
 
-      // build devie class object
-      DEVICE_CLASSES[String(file).slice(0, file.lastIndexOf('.'))] = module.default
+        // build devie class object
+        DEVICE_CLASSES[String(file).slice(0, file.lastIndexOf('.'))] = module.default
 
-      log('✨', 'Device class found: ' + file)
+        log('✨', 'Device class found: ' + file)
+      } catch (error) {
+        log(error)
+      }
+      
     }
 
     connect()
@@ -42,6 +48,7 @@ fs.readdir(DEVICE_PATH, async (error, files) => {
 
 function connect () {
   const args = Object.fromEntries(process.argv.slice(2).map(arg => arg.split('=')))
+
   const host = args.host || process.env.MQTT_HOST || 'localhost'
   const options = {
     port: args.port || process.env.MQTT_PORT || 1883,
